@@ -8,9 +8,9 @@ import plotly.graph_objs as go
 start = datetime.datetime.today() - relativedelta(years=1)
 end = datetime.datetime.today() - relativedelta(days=1)
 
-inputStock = "VZ"
+inputStock = ""
 #a = Stock(inputStock,token = "<pk_42cdcecaff544134a674c0926e9e327a>")
-df = get_historical_data(inputStock, start = start, end = end, output_format = "pandas")
+df = get_historical_data(inputStock, start = start, end = end, output_format = "pandas", token = "sk_2ada851d454441ab8c702c79453130cd")
 
 
 trace_close = go.Scatter(
