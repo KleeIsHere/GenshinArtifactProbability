@@ -2,13 +2,11 @@
 
 
 class ArtifactProbability:
+    
 
-    def __init__ ():
-        pass
+    def __init__ (self):
 
-    def getMainStatProb(artifactType, mainStat):
-
-        circlet = {
+        self.circlet = {
 
             "ATK%main" : 0.22,
             "HP%main" : 0.22,
@@ -101,7 +99,7 @@ class ArtifactProbability:
 
         }
 
-        goblet = {
+        self.goblet = {
 
             "ATK%main" : 0.2125,
             "HP%main" : 0.2125,
@@ -180,7 +178,7 @@ class ArtifactProbability:
 
         }
 
-        sands = {
+        self.sands = {
 
             "ATK%main" : 0.2668,
             "HP%main" : 0.2668,
@@ -249,3 +247,45 @@ class ArtifactProbability:
             }
 
         }
+
+
+    def getMainStatProb(self, artifactSlot, mainStat):
+
+        return self.selectArtifactSlot(artifactSlot)[mainStat]
+    
+    
+
+    def selectArtifactSlot(self, artifactSlot):
+
+        Stats = {
+                "circlet" : self.circlet,
+                "goblet" : self.goblet,
+                "sands" : self.sands
+            }
+
+        return Stats[artifactSlot]
+
+    def getSubStatProb(self, artifactSlot, mainStatTag, subStat):
+
+        return self.selectArtifactSlot(artifactSlot)[mainStatTag][subStat]
+
+
+test = ArtifactProbability()
+
+keys = list()
+
+pyroBonusProb = test.getMainStatProb("goblet", "PyroB%main")
+subProb1 = test.getSubStatProb("goblet", "EB%", "ATK%")
+subProb2 = test.getSubStatProb("goblet", "EB%", "CR")
+subProb3 = test.getSubStatProb("goblet", "EB%", "CD")
+
+print(pyroBonusProb)
+print(subProb1)
+print(subProb2)
+print(subProb3)
+
+totalProb = pyroBonusProb*subProb1*subProb2*subProb3
+number_of_artifacts = int( 1 / totalProb)
+
+print(totalProb)
+print(number_of_artifacts)
