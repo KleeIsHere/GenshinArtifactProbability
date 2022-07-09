@@ -1,14 +1,14 @@
 
 
 
+from sqlalchemy import null
+import math
+
+
 class ArtifactProbability:
 
-    def __init__ ():
-        pass
 
-    def getMainStatProb(artifactType, mainStat):
-
-        circlet = {
+    circlet = {
 
             "ATK%main" : 0.22,
             "HP%main" : 0.22,
@@ -101,7 +101,7 @@ class ArtifactProbability:
 
         }
 
-        goblet = {
+    goblet = {
 
             "ATK%main" : 0.2125,
             "HP%main" : 0.2125,
@@ -180,7 +180,7 @@ class ArtifactProbability:
 
         }
 
-        sands = {
+    sands = {
 
             "ATK%main" : 0.2668,
             "HP%main" : 0.2668,
@@ -247,5 +247,86 @@ class ArtifactProbability:
                 "CD" : 0.075,
                 "CR" : 0.075
             }
-
         }
+
+    def __init__ (self):
+        pass
+
+    def get_main_stat_prob(self, artifactType, mainStat):
+
+        returnValue = null
+
+        if artifactType == "circlet":
+            returnValue = self.circlet
+
+        elif artifactType == "goblet":
+            returnValue = self.goblet
+
+        elif artifactType == "sands":
+            returnValue = self.sands
+        
+        return returnValue, artifactType
+
+    # function for calculating the substat probability of an artifact specifying certain substats
+    def calc_substat_probabilty(main_stat_prob, mainstat, *substats):
+
+        mainstat_key = main_stat_prob + "main"
+        mainstat_probability = main_stat_prob[mainstat_key]
+        
+        substat_probabilities = []
+        total_probability = 1
+
+        # looping through every substat and adding it to a list / getting the total probabilty
+        for substat in substats:
+
+            # extracting the probaiblity values from the nested hard coded dictionaries
+            substat_probability = main_stat_prob[mainstat][substat]
+            substat_probabilities.append(substat_probability)
+
+            # sum of all the current probabilities
+            new_term = substat_probability / (1 - sum(substat_probabilities))
+
+            # multiplying the previous terms by the new term
+            total_probability = total_probability * new_term
+
+        return total_probability
+
+        # next we will want to find the probability of rolling n times into a certain number of substats
+        # we can probably do that by just calculating a binomial distribution for whatever stat we are interested in
+        # pass the function a series of values for which slot we want to roll into and how many times
+
+        # once an artifact gets 4 substats it starts to use this function
+    def substat_probability(substat_list, substat_probabilities, roll_list):
+
+        # to calculate the probability of getting a specific number of rolls we will add the binomial distributions
+        # of rolling each of the substats n times
+
+        probability = 1
+
+        for roll in roll_list:
+
+            # calculate probability of getting n rolls in k attempts
+                
+            new_stat = math.comb(roll, roll)*(0.25**roll)*(1-0.25)**(roll-roll)
+
+            probability = probability*new_stat
+
+
+
+
+
+
+
+
+
+
+
+
+    # we need to first get the probability of rolling a certain artifact and then get the subsequent rolls.
+
+    # we could also try to define all of the artifacts but lets leave that for later.
+
+
+        
+
+    
