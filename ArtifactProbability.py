@@ -6,6 +6,7 @@ import math
 
 
 class ArtifactProbability:
+    
 
 
     circlet = {
